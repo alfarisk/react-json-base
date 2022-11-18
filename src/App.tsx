@@ -1,28 +1,44 @@
-import React from "react";
-
 import { Refine } from "@pankod/refine-core";
 import {
-  notificationProvider,
-  Layout,
-  ReadyPage,
-  ErrorComponent,
+    Layout,
+    ReadyPage,
+    notificationProvider,
+    ErrorComponent,
 } from "@pankod/refine-antd";
-
-import "@pankod/refine-antd/dist/styles.min.css";
 import routerProvider from "@pankod/refine-react-router-v6";
 import dataProvider from "@pankod/refine-simple-rest";
 
-function App() {
-  return (
-    <Refine
-      notificationProvider={notificationProvider}
-      Layout={Layout}
-      ReadyPage={ReadyPage}
-      catchAll={<ErrorComponent />}
-      routerProvider={routerProvider}
-      dataProvider={dataProvider("https://api.fake-rest.refine.dev")}
-    />
-  );
-}
+import "@pankod/refine-antd/dist/styles.min.css";
+import { PostList, PostShow, PostEdit, PostCreate } from "./pages/posts";
+import { CategoryList, CategoryShow, CategoryEdit, CategoryCreate } from "./pages/categories";
+
+const App: React.FC = () => {
+    return (
+        <Refine
+            routerProvider={routerProvider}
+            dataProvider={dataProvider("https://api.fake-rest.refine.dev")}
+            Layout={Layout}
+            ReadyPage={ReadyPage}
+            notificationProvider={notificationProvider}
+            catchAll={<ErrorComponent />}
+            resources={[
+              { name: "posts",
+                list: PostList,
+                show: PostShow,
+                edit: PostEdit,
+                create: PostCreate,
+                canDelete: true, 
+              },
+              { name: "categories",
+                list: CategoryList,
+                show: CategoryShow,
+                edit: CategoryEdit,
+                create: CategoryCreate,
+                canDelete: true, 
+              },
+            ]}
+        />
+    );
+};
 
 export default App;
